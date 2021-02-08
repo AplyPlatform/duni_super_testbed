@@ -452,18 +452,32 @@ function verifyPhoneHandler(form_p_id, checkFunc) {
 	$(form_id + "_verify_phone").on("click", function(e) {
 		e.preventDefault();
 		// send phone verification
-		// if succeed 
-
-		// else if failed, show message
-
-		$('#modal-4').modal('show');
-		$('#askModalOKButton').off('click');
-  		$('#askModalOKButton').click(function () {
-      		$('#modal-4').modal('hide');
-      		if (isSet(targetURL)) {        
-        	location.href=targetURL;
-      }
-  }); 
+		var sns_token = getCookie("temp_sns_token");
+		var sns_kind = getCookie("temp_sns_kind");
+		var jdata = {"phone" : $(form_id + "_phone").val(), "sns_token" : sns_token, "sns_kind" : sns_kind, "service" : "user"};
+		
+		ajaxRequest(jdata, 
+				function (data) {
+						if (data.result == "success") {										
+							// if succeed 
+							$('#modal-4').modal('show');
+							$('#askModalOKButton').off('click');
+							$('#askModalOKButton').click(function () {
+								$('#modal-4').modal('hide');
+								if (isSet(targetURL)) {        
+									location.href=targetURL;
+								}
+  							});	
+						}
+						else {					
+							showDialog("잘못된 전화번호입니다. 다시 입력해주세요.", null)
+						}		
+				},
+				function (err, stat, error) {
+						showDialog("죄송합니다, 일시적인 오류가 발생하였습니다. 다시 시도 부탁드립니다.", null);
+				}
+		);								
+		 
 		
 	});
 
