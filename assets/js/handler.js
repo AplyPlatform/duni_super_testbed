@@ -512,7 +512,6 @@ function setPage(form_id, checkFunc) {
 		}		
 	}
 	if(form_id == "user"){
-		console.log("here");
 		verifyPhoneHandler(form_id, checkFunc);
 	}		
 	setSubmitHandler(form_id, checkFunc);
