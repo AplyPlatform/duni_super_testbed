@@ -511,7 +511,9 @@ function setPage(form_id, checkFunc) {
 			$("#form_phone2").val(phone_number);		
 		}		
 	}
-					
+	if(form_id == "user"){
+		verifyPhoneHandler(form_id, checkFunc)
+	}		
 	setSubmitHandler(form_id, checkFunc);
 	checkLoginStatus();
 }
