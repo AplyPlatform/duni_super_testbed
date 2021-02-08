@@ -451,7 +451,19 @@ function verifyPhoneHandler(form_p_id, checkFunc) {
 
 	$(form_id + "_verify_phone").on("click", function(e) {
 		e.preventDefault();
+		// send phone verification
+		// if succeed 
+
+		// else if failed, show message
+
 		$('#modal-4').modal('show');
+		$('#askModalOKButton').off('click');
+  		$('#askModalOKButton').click(function () {
+      		$('#modal-4').modal('hide');
+      		if (isSet(targetURL)) {        
+        	location.href=targetURL;
+      }
+  }); 
 		
 	});
 
