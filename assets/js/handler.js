@@ -124,6 +124,7 @@ function checkUserApplicationData(form_id) {
 
 
 
+
 function checkPartnerApplicationData(form_id) {
 
 	var min_type = "";
