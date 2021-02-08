@@ -103,6 +103,11 @@ function checkUserApplicationData(form_id) {
 		showDialog("이메일 주소를 입력하세요.", null);
 		return false;
 	}
+
+	if ($(form_id).find('input[name="form_phone"]').val() == "") {
+		showDialog("전화번호를 입력하세요.", null);
+		return false;
+	}
 	
 	var sns_token = getCookie("temp_sns_token");
 	var sns_kind = getCookie("temp_sns_kind");	
