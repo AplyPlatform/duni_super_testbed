@@ -446,7 +446,17 @@ function setRef() {
 	setCookie("referrer_site", referrer_site, 1);
 }
 
+function verifyPhoneHandler(form_p_id, checkFunc) {
+	var form_id = "#" + form_p_id;
 
+	$(form_id + "_verify_phone").on("click", function(e) {
+		e.preventDefault();
+		$('#modal-4').modal('show');
+		
+	});
+
+	$('[name^=form_phone]').keypress(validateNumber);
+}
 
 function setSubmitHandler(form_p_id, checkFunc) {
 	var form_id = "#" + form_p_id;
