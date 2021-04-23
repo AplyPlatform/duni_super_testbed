@@ -514,6 +514,7 @@ function verifyPhoneHandler(form_p_id, checkFunc) {
 		e.preventDefault();
 		// send phone verification
 		var jdata = {"action": "member2", "daction" : "validate_phonenumber", "phone_number" : $(form_id + "_phone").val()};
+		console.log(jdata);
 
 		$.ajax({
 			url: "https://api.duni.io/v1",
