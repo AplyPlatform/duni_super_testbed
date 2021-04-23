@@ -513,7 +513,7 @@ function verifyPhoneHandler(form_p_id, checkFunc) {
 	$(form_id + "_verify_phone").on("click", function(e) {
 		e.preventDefault();
 		// send phone verification
-		var jdata = {"action": "member2", "daction" : "validate_phonenumber", "phone_number" : $("form_phone").val()};
+		var jdata = {"action": "member2", "daction" : "validate_phonenumber", "phone_number" : $(form_id).find('input[name="form_phone"]').val()};
 		console.log(jdata);
 
 		$.ajax({
