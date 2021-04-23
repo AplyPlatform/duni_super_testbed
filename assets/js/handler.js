@@ -25,6 +25,11 @@ function showDialog(msg, targetURL) {
   });    		
 }
 
+// 전화번호 인증 dialog
+function showVerifyCodeDialog(){
+
+}
+
 function commonCheckField(form_id) {
 	if ($(form_id).find('input[name="form_phone"]').val() == "") {
 		showDialog("전화번호를 입력하세요.", null);
@@ -446,39 +451,100 @@ function setRef() {
 	setCookie("referrer_site", referrer_site, 1);
 }
 
+function startTimer(duration, display) {
+    var timer = duration, minutes, seconds;
+    setInterval(function () {
+        minutes = parseInt(timer / 60, 10);
+        seconds = parseInt(timer % 60, 10);
+
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+        display.text(minutes + ":" + seconds);
+
+        if (--timer < 0) {
+			showDialog("인증번호 입력시간이 만료되었습니다.", null);
+			// 페이지 새로고침
+			location.href="/hjtest";
+        }
+    }, 1000);
+}
+
+// 인증번호 체크
+function verifyCodeHandler(form_p_id, checkFunc){
+	var form_id = "#" + form_p_id;
+
+	$('#verifyCodeButton').click(function(e) {
+		e.preventDefault();
+		var jdata = {"action" : "member2", "daction" : "check_verifycode", "phone_number" : $(form_id + "_phone").val(), "verify_code" : $};
+
+		$.ajax({
+			url: "https://api.duni.io/v1",
+			dataType: "json",
+			crossDomain: true,
+			cache: false,
+			data: JSON.stringify(jdata),
+			type: "POST",
+			contentType: "application/json; charset=utf-8",
+			success: function (r) {
+					if (r.code == "200") {      // 인증성공  			
+						showDialog("인증되었습니다.", null);	
+						//return;
+					} else if (r.code == "400") {
+						showDialog("인증번호가 일치하지 않습니다. 다시 입력해주세요.");
+					} else if (r.code == "408") {
+						showDialog("인증시간이 초과되었습니다. 다시 시도해주세요.");
+					}
+			},
+			error: function (request, status, error) { 
+				showDialog("죄송합니다, 일시적인 오류가 발생하였습니다. 다시 시도 부탁드립니다.", null);           
+				//errorcallback(request, status, error);
+			}
+		});	
+
+	});
+	
+}
+
+// 전화번호 코드 전송
 function verifyPhoneHandler(form_p_id, checkFunc) {
 	var form_id = "#" + form_p_id;
 
 	$(form_id + "_verify_phone").on("click", function(e) {
 		e.preventDefault();
 		// send phone verification
-		var sns_token = getCookie("temp_sns_token");
-		var sns_kind = getCookie("temp_sns_kind");
-		var jdata = {"phone" : $(form_id + "_phone").val(), "sns_token" : sns_token, "sns_kind" : sns_kind, "service" : "user"};
-		
-		ajaxRequest(jdata, 
-				function (data) {
-						if (data.result == "success") {										
-							// if succeed 
-							$('#modal-4').modal('show');
-							$('#askModalOKButton').off('click');
-							$('#askModalOKButton').click(function () {
-								$('#modal-4').modal('hide');
-								if (isSet(targetURL)) {        
-									location.href=targetURL;
-								}
-  							});	
-						}
-						else {					
-							showDialog("잘못된 전화번호입니다. 다시 입력해주세요.", null)
-						}		
-				},
-				function (err, stat, error) {
-						showDialog("죄송합니다, 일시적인 오류가 발생하였습니다. 다시 시도 부탁드립니다.", null);
-				}
-		);								
-		 
-		
+		var jdata = {"action": "member2", "daction" : "validate_phonenumber", "phone_number" : $(form_id + "_phone").val()};
+
+		$.ajax({
+			url: "https://api.duni.io/v1",
+			dataType: "json",
+			crossDomain: true,
+			cache: false,
+			data: JSON.stringify(jdata),
+			type: "POST",
+			contentType: "application/json; charset=utf-8",
+			success: function (r) {
+					if (r.code == "200") {      // 전송성공   			
+						showDialog("인증번호가 전송되었습니다.", null);
+						// 인증하기 텍스트 -> 재전송
+						$(form_id + "_verify_phone").innerText = '재전송';
+						var duration = 60 * 3;
+						var display = $('#remaining_time');
+						startTimer(duration, display);	
+						//return;
+					} else if (r.code == "400") {
+						showDialog("잘못된 전화번호입니다. 다시 입력해주세요.");
+					} else if (r.code == "403") {
+						showDialog("이미 가입된 전화번호입니다. 다른번호를 입력해주세요.");
+					} else if (r.code == "500"){
+						showDialog("죄송합니다, 일시적인 오류가 발생하였습니다. 다시 시도 부탁드립니다.", null);   
+					}
+			},
+			error: function (request, status, error) { 
+				showDialog("죄송합니다, 일시적인 오류가 발생하였습니다. 다시 시도 부탁드립니다.", null);           
+				//errorcallback(request, status, error);
+			}
+		});								 	
 	});
 
 	$('[name^=form_phone]').keypress(validateNumber);

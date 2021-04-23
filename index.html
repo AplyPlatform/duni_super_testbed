@@ -118,8 +118,11 @@
 				                                </div>
 				                                <div class="col-lg-6">
 				                                    <div class="form-group">
-				                                        <input class="form-control" type="text" name="form_phone" id="form_phone" placeholder="전화번호(-없이 입력해주세요)" required="">
-														<input class="btn btn-brand" id="user_verify_phone" value="인증하기">
+														<input class="form-control" type="text" name="form_phone" id="form_phone" placeholder="전화번호(-없이 입력해주세요)" required="" style="float: right">
+														<label id="remaining_time"></label>
+														<div style="overflow: hidden; padding-right: .5em;">
+															<input class="btn btn-brand" id="user_verify_phone" value="인증번호 전송" style="width: 100%;" />
+														 </div>
 														<p class="help-block text-danger"></p>
 				                                    </div>
 				                                </div>				                                
@@ -257,10 +260,9 @@
 								<div id="contact-response"></div>
 								<input class="form-control" type="text" name="verify_code" id="verify_code" placeholder="인증번호 입력" required="">
 								<button class="btn btn-sm btn-circle" type="button" id="verifyCodeButton">인증하기</button>
-								<button class="btn btn-sm btn-circle" type="button" id="verifyCodeButton">재전송</button>
 							</div>
 							<div class="modal-footer">
-								<button class="btn btn-warning btn-sm btn-circle" type="button" id="askModalOKButton" data-dismiss="modal">취소</button>				               
+								<button class="btn btn-warning btn-sm btn-circle" type="button" id="closeModalButton" data-dismiss="modal">취소</button>				               
 							</div>
 						</div>
 					</div>
