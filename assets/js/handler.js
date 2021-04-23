@@ -607,6 +607,7 @@ function setPage(form_id, checkFunc) {
 	}
 	if(form_id == "user"){
 		verifyPhoneHandler(form_id, checkFunc);
+		verifyCodeHandler(form_id, checkFunc);
 	}		
 	setSubmitHandler(form_id, checkFunc);
 	checkLoginStatus();
