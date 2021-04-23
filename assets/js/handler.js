@@ -546,7 +546,37 @@ function verifyPhoneHandler(form_p_id, checkFunc) {
 				showDialog("죄송합니다, 일시적인 오류가 발생하였습니다. 다시 시도 부탁드립니다.", null);           
 				//errorcallback(request, status, error);
 			}
-		});								 	
+		});	
+		
+		$(form_id + "_verify_code").click(function(e) {
+			e.preventDefault();
+			var jdata = {"action" : "member2", "daction" : "check_verifycode", "phone_number" : parseInt($(form_id).find('input[name="form_phone"]').val()), "verify_code" : parseInt($(form_id).find('input[name="verification_code"]').val())};
+			console.log(jdata);
+			$.ajax({
+				url: "https://api.duni.io/v1",
+				dataType: "json",
+				crossDomain: true,
+				cache: false,
+				data: JSON.stringify(jdata),
+				type: "POST",
+				contentType: "application/json; charset=utf-8",
+				success: function (r) {
+						if (r.code == "200") {      // 인증성공  			
+							showDialog("인증되었습니다.", null);	
+							//return;
+						} else if (r.code == "400") {
+							showDialog("인증번호가 일치하지 않습니다. 다시 입력해주세요.");
+						} else if (r.code == "408") {
+							showDialog("인증시간이 초과되었습니다. 다시 시도해주세요.");
+						}
+				},
+				error: function (request, status, error) { 
+					showDialog("죄송합니다, 일시적인 오류가 발생하였습니다. 다시 시도 부탁드립니다.", null);           
+					//errorcallback(request, status, error);
+				}
+			});	
+	
+		});
 	});
 
 	$('[name^=form_phone]').keypress(validateNumber);
