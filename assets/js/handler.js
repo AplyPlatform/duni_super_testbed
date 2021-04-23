@@ -474,7 +474,7 @@ function startTimer(duration, display) {
 function verifyCodeHandler(form_p_id, checkFunc){
 	var form_id = "#" + form_p_id;
 
-	$('#verifyCodeButton').click(function(e) {
+	$(form_id + '_verify_code').click(function(e) {
 		e.preventDefault();
 		var jdata = {"action" : "member2", "daction" : "check_verifycode", "phone_number" : $(form_id + "_phone").val(), "verify_code" : $};
 
