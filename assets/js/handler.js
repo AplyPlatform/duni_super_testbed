@@ -517,11 +517,11 @@ function verifyPhoneHandler(form_p_id, checkFunc) {
 		var jdata = {"action": "member2", "daction" : "validate_phonenumber", "phone_number" : parseInt($(form_id).find('input[name="form_phone"]').val())};
 		console.log(jdata);
 		showDialog("인증번호가 전송되었습니다.", null);
-						// 인증하기 텍스트 -> 재전송
-						$(form_id + "_verify_phone").innerText = '재전송';
-						var duration = 60 * 3;
-						var display = $('#remaining_time');
-						startTimer(duration, display);	
+		// 인증하기 텍스트 -> 재전송
+		$(form_id + "_verify_phone").innerText = '재전송';
+		var duration = 60 * 3;
+		var display = $('#remaining_time');
+		startTimer(duration, display);	
 
 		// $.ajax({
 		// 	url: "https://api.duni.io/v1",
@@ -552,8 +552,9 @@ function verifyPhoneHandler(form_p_id, checkFunc) {
 		// 		showDialog("죄송합니다, 일시적인 오류가 발생하였습니다. 다시 시도 부탁드립니다.", null);           
 		// 		//errorcallback(request, status, error);
 		// 	}
-		});	
-		
+		//});
+	
+	});	
 		$(form_id + "_verify_code").click(function(e) {
 			e.preventDefault();
 			var jdata = {"action" : "member2", "daction" : "check_verifycode", "phone_number" : parseInt($(form_id).find('input[name="form_phone"]').val()), "verify_code" : parseInt($(form_id).find('input[name="verification_code"]').val())};
@@ -583,7 +584,6 @@ function verifyPhoneHandler(form_p_id, checkFunc) {
 			});	
 	
 		});
-	});
 
 	$('[name^=form_phone]').keypress(validateNumber);
 }
