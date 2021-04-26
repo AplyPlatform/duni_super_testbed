@@ -526,7 +526,9 @@ function verifyPhoneHandler(form_p_id, checkFunc) {
 				contentType: "application/json; charset=utf-8",
 				success: function (r) {
 						if (r.code == "200") {      // 인증성공  			
-							showDialog("인증되었습니다.", null);	
+							showDialog("인증되었습니다.", null);
+							$(form_id).find('input[name="verification_code"]').val("");
+							$("#code_verification_input").hide();	
 							//return;
 						} else if (r.code == "400") {
 							showDialog("인증번호가 일치하지 않습니다. 다시 입력해주세요.");
