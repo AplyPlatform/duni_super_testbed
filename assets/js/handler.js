@@ -514,7 +514,7 @@ function verifyPhoneHandler(form_p_id, checkFunc) {
 		e.preventDefault();
 		// send phone verification
 		console.log(parseInt($(form_id).find('input[name="form_phone"]').val()));
-		var jdata = {"action": "member2", "daction" : "check_verifycode", "phone_number" : parseInt($(form_id).find('input[name="form_phone"]').val())};
+		var jdata = {"action": "member2", "daction" : "validate_phonenumber", "phone_number" : parseInt($(form_id).find('input[name="form_phone"]').val())};
 		console.log(jdata);
 
 		$.ajax({
