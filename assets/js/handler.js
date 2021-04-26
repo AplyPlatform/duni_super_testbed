@@ -517,7 +517,7 @@ function verifyPhoneHandler(form_p_id, checkFunc) {
 		console.log(jdata);
 		showDialog("인증번호가 전송되었습니다.", null);
 		// 인증하기 텍스트 -> 재전송
-		$(form_id + "_verify_phone").innerText = '재전송';
+		$(form_id + "_verify_phone").value = '재전송';
 		var duration = 5;
 		var display = $('#remaining_time');
 		startTimer(duration, display);	
