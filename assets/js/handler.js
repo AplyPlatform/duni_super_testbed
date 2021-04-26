@@ -478,70 +478,78 @@ function verifyPhoneHandler(form_p_id, checkFunc) {
 		// send phone verification
 		var jdata = {"action": "member2", "daction" : "validate_phonenumber", "phone_number" : $(form_id).find('input[name="form_phone"]').val()};
 		console.log(jdata);
-
-		$.ajax({
-			url: "https://api.duni.io/v1",
-			dataType: "json",
-			crossDomain: true,
-			cache: false,
-			data: JSON.stringify(jdata),
-			type: "POST",
-			contentType: "application/json; charset=utf-8",
-			success: function (r) {
-				if (r.result_code == "1") {      // 전송성공  
-					showDialog("인증번호가 전송되었습니다.", null);
+		showDialog("인증번호가 전송되었습니다.", null);
 					// 인증하기 텍스트 -> 재전송
 					$(form_id + "_verify_phone").val("재전송");
-					var duration = 60 * 3;
+					var duration = 10;
 					var display = $('#remaining_time');
 					startTimer(duration, display);
 					$("#code_verification_input").show();
-						//return;
-				} else if (r.result_code == "-101") {
-						showDialog("잘못된 전화번호입니다. 다시 입력해주세요.");
-				} else if (r.code == "400") {
-						showDialog("이미 가입된 전화번호입니다. 다른번호를 입력해주세요.");
-				} else if (r.code == "500"){
-						showDialog("죄송합니다, 일시적인 오류가 발생하였습니다. 다시 시도 부탁드립니다.", null);   
-				}
-			},
-			error: function (request, status, error) { 
-				showDialog("죄송합니다, 일시적인 오류가 발생하였습니다. 다시 시도 부탁드립니다.", null);           
-				//errorcallback(request, status, error);
-			}
-		});
+		// $.ajax({
+		// 	url: "https://api.duni.io/v1",
+		// 	dataType: "json",
+		// 	crossDomain: true,
+		// 	cache: false,
+		// 	data: JSON.stringify(jdata),
+		// 	type: "POST",
+		// 	contentType: "application/json; charset=utf-8",
+		// 	success: function (r) {
+		// 		if (r.result_code == "1") {      // 전송성공  
+		// 			showDialog("인증번호가 전송되었습니다.", null);
+		// 			// 인증하기 텍스트 -> 재전송
+		// 			$(form_id + "_verify_phone").val("재전송");
+		// 			var duration = 60 * 3;
+		// 			var display = $('#remaining_time');
+		// 			startTimer(duration, display);
+		// 			$("#code_verification_input").show();
+		// 				//return;
+		// 		} else if (r.result_code == "-101") {
+		// 				showDialog("잘못된 전화번호입니다. 다시 입력해주세요.");
+		// 		} else if (r.code == "400") {
+		// 				showDialog("이미 가입된 전화번호입니다. 다른번호를 입력해주세요.");
+		// 		} else if (r.code == "500"){
+		// 				showDialog("죄송합니다, 일시적인 오류가 발생하였습니다. 다시 시도 부탁드립니다.", null);   
+		// 		}
+		// 	},
+		// 	error: function (request, status, error) { 
+		// 		showDialog("죄송합니다, 일시적인 오류가 발생하였습니다. 다시 시도 부탁드립니다.", null);           
+		// 		//errorcallback(request, status, error);
+		// 	}
+		// });
 	
 	});	
 		$(form_id + "_verify_code").click(function(e) {
 			e.preventDefault();
 			var jdata = {"action" : "member2", "daction" : "check_verifycode", "phone_number" : $(form_id).find('input[name="form_phone"]').val(), "verify_code" : $(form_id).find('input[name="verification_code"]').val()};
-			console.log(jdata);
-			$.ajax({
-				url: "https://api.duni.io/v1",
-				dataType: "json",
-				crossDomain: true,
-				cache: false,
-				data: JSON.stringify(jdata),
-				type: "POST",
-				contentType: "application/json; charset=utf-8",
-				success: function (r) {
-						if (r.code == "200") {      // 인증성공 
-							$(form_id).find('input[name="verification_code"]').val("");
-							$("#code_verification_input").hide();			
-							showDialog("인증되었습니다.", null);
+			$(form_id).find('input[name="verification_code"]').val("");
+			$("#code_verification_input").hide();			
+			showDialog("인증되었습니다.", null);
+			// $.ajax({
+			// 	url: "https://api.duni.io/v1",
+			// 	dataType: "json",
+			// 	crossDomain: true,
+			// 	cache: false,
+			// 	data: JSON.stringify(jdata),
+			// 	type: "POST",
+			// 	contentType: "application/json; charset=utf-8",
+			// 	success: function (r) {
+			// 			if (r.code == "200") {      // 인증성공 
+			// 				$(form_id).find('input[name="verification_code"]').val("");
+			// 				$("#code_verification_input").hide();			
+			// 				showDialog("인증되었습니다.", null);
 							
-							//return;
-						} else if (r.code == "400") {
-							showDialog("인증번호가 일치하지 않습니다. 다시 입력해주세요.");
-						} else if (r.code == "408") {
-							showDialog("인증시간이 초과되었습니다. 다시 시도해주세요.");
-						}
-				},
-				error: function (request, status, error) { 
-					showDialog("죄송합니다, 일시적인 오류가 발생하였습니다. 다시 시도 부탁드립니다.", null);           
-					//errorcallback(request, status, error);
-				}
-			});	
+			// 				//return;
+			// 			} else if (r.code == "400") {
+			// 				showDialog("인증번호가 일치하지 않습니다. 다시 입력해주세요.");
+			// 			} else if (r.code == "408") {
+			// 				showDialog("인증시간이 초과되었습니다. 다시 시도해주세요.");
+			// 			}
+			// 	},
+			// 	error: function (request, status, error) { 
+			// 		showDialog("죄송합니다, 일시적인 오류가 발생하였습니다. 다시 시도 부탁드립니다.", null);           
+			// 		//errorcallback(request, status, error);
+			// 	}
+			// });	
 	
 		});
 
