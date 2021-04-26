@@ -520,7 +520,8 @@ function verifyPhoneHandler(form_p_id, checkFunc) {
 		$(form_id + "_verify_phone").val("재전송");
 		var duration = 5;
 		var display = $('#remaining_time');
-		startTimer(duration, display);	
+		startTimer(duration, display);
+		$("code_verification_inpput").style.visibility('visible');
 
 		// $.ajax({
 		// 	url: "https://api.duni.io/v1",
