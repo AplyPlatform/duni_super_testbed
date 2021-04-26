@@ -464,8 +464,7 @@ function startTimer(duration, display) {
 
         if (--timer < 0) {
 			clearTimeout(timer);
-			showDialog("인증번호 입력시간이 만료되었습니다.", null);
-			location.reload();
+			showDialog("인증번호 입력시간이 만료되었습니다.", location.href);
         }
     }, 1000);
 }
