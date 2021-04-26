@@ -2,6 +2,8 @@
 var bRefSet = false;
 
 var referrer_site = "direct";
+
+var interval_timer;
 	
 function showLoader() {
 	$("#loaderbox").show();
@@ -23,11 +25,6 @@ function showDialog(msg, targetURL) {
         location.href=targetURL;
       }
   });    		
-}
-
-// 전화번호 인증 dialog
-function showVerifyCodeDialog(){
-
 }
 
 function commonCheckField(form_id) {
@@ -453,7 +450,7 @@ function setRef() {
 
 function startTimer(duration, display) {
     var timer = duration, minutes, seconds;
-    var interval = setInterval(function () {
+    interval_timer = setInterval(function () {
         minutes = parseInt(timer / 60, 10);
         seconds = parseInt(timer % 60, 10);
 
@@ -463,7 +460,7 @@ function startTimer(duration, display) {
         display.text(minutes + ":" + seconds);
 
         if (--timer < 0) {
-			clearInterval(interval);
+			clearInterval(interval_timer);
 			showDialog("인증번호 입력시간이 만료되었습니다.", location.href);
         }
     }, 1000);
@@ -524,6 +521,7 @@ function verifyPhoneHandler(form_p_id, checkFunc) {
 			$(form_id).find('input[name="verification_code"]').val("");
 			$("#code_verification_input").hide();			
 			showDialog("인증되었습니다.", null);
+			clearInterval(interval_timer);
 			// $.ajax({
 			// 	url: "https://api.duni.io/v1",
 			// 	dataType: "json",
