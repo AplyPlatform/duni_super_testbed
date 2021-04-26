@@ -453,7 +453,7 @@ function setRef() {
 
 function startTimer(duration, display) {
     var timer = duration, minutes, seconds;
-    setInterval(function () {
+    var interval = setInterval(function () {
         minutes = parseInt(timer / 60, 10);
         seconds = parseInt(timer % 60, 10);
 
@@ -463,7 +463,7 @@ function startTimer(duration, display) {
         display.text(minutes + ":" + seconds);
 
         if (--timer < 0) {
-			clearTimeout(timer);
+			clearInterval(interval);
 			showDialog("인증번호 입력시간이 만료되었습니다.", location.href);
         }
     }, 1000);
@@ -518,7 +518,7 @@ function verifyPhoneHandler(form_p_id, checkFunc) {
 		showDialog("인증번호가 전송되었습니다.", null);
 		// 인증하기 텍스트 -> 재전송
 		$(form_id + "_verify_phone").innerText = '재전송';
-		var duration = 10;
+		var duration = 5;
 		var display = $('#remaining_time');
 		startTimer(duration, display);	
 
