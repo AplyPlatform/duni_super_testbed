@@ -526,7 +526,7 @@ function verifyPhoneHandler(form_p_id, checkFunc) {
 			type: "POST",
 			contentType: "application/json; charset=utf-8",
 			success: function (r) {
-					if (r.code == "200") {      // 전송성공   			
+					if (r.result_code == "1") {      // 전송성공   			
 						showDialog("인증번호가 전송되었습니다.", null);
 						// 인증하기 텍스트 -> 재전송
 						$(form_id + "_verify_phone").innerText = '재전송';
