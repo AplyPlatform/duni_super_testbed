@@ -3,6 +3,7 @@ var bRefSet = false;
 
 var referrer_site = "direct";
 
+// 인증 타이머 글로벌 함수
 var interval_timer;
 	
 function showLoader() {
@@ -448,6 +449,7 @@ function setRef() {
 	setCookie("referrer_site", referrer_site, 1);
 }
 
+// 인증기간 타이머 혜지프로
 function startTimer(duration, display) {
     var timer = duration, minutes, seconds;
     interval_timer = setInterval(function () {
@@ -466,7 +468,7 @@ function startTimer(duration, display) {
     }, 1000);
 }
 
-// 전화번호 코드 전송
+// 전화번호 코드 전송 혜지프로
 function verifyPhoneHandler(form_p_id, checkFunc) {
 	var form_id = "#" + form_p_id;
 
