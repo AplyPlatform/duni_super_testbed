@@ -524,7 +524,7 @@ function verifyPhoneHandler(form_p_id, checkFunc) {
 							$(form_id).find('input[name="verification_code"]').val("");
 							$("#code_verification_input").hide();			
 							showDialog("인증되었습니다.", null);
-							clearInterval(interval_timer);\
+							clearInterval(interval_timer);
 							//return;
 						} else if (r.code == "400") {
 							showDialog("인증번호가 일치하지 않습니다. 다시 입력해주세요.");
