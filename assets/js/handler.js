@@ -521,7 +521,7 @@ function verifyPhoneHandler(form_p_id, checkFunc) {
 		var duration = 5;
 		var display = $('#remaining_time');
 		startTimer(duration, display);
-		$("code_verification_input").style.visibility('visible');
+		$("#code_verification_input").style.visibility('visible');
 
 		// $.ajax({
 		// 	url: "https://api.duni.io/v1",
