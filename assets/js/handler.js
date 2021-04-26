@@ -550,7 +550,7 @@ function verifyPhoneHandler(form_p_id, checkFunc) {
 	});	
 		$(form_id + "_verify_code").click(function(e) {
 			e.preventDefault();
-			var jdata = {"action" : "member2", "daction" : "check_verifycode", "phone_number" : $(form_id).find('input[name="form_phone"]').val(), "verify_code" : parseInt($(form_id).find('input[name="verification_code"]').val())};
+			var jdata = {"action" : "member2", "daction" : "check_verifycode", "phone_number" : $(form_id).find('input[name="form_phone"]').val(), "verify_code" : $(form_id).find('input[name="verification_code"]').val()};
 			console.log(jdata);
 			$.ajax({
 				url: "https://api.duni.io/v1",
