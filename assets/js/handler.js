@@ -497,9 +497,9 @@ function verifyPhoneHandler(form_p_id, checkFunc) {
 					startTimer(duration, display);
 					$("#code_verification_input").show();
 						//return;
-				} else if (r.code == "400") {
+				} else if (r.result_code == "-101") {
 						showDialog("잘못된 전화번호입니다. 다시 입력해주세요.");
-				} else if (r.code == "403") {
+				} else if (r.code == "400") {
 						showDialog("이미 가입된 전화번호입니다. 다른번호를 입력해주세요.");
 				} else if (r.code == "500"){
 						showDialog("죄송합니다, 일시적인 오류가 발생하였습니다. 다시 시도 부탁드립니다.", null);   
@@ -525,10 +525,11 @@ function verifyPhoneHandler(form_p_id, checkFunc) {
 				type: "POST",
 				contentType: "application/json; charset=utf-8",
 				success: function (r) {
-						if (r.code == "200") {      // 인증성공  			
-							showDialog("인증되었습니다.", null);
+						if (r.code == "200") {      // 인증성공 
 							$(form_id).find('input[name="verification_code"]').val("");
-							$("#code_verification_input").hide();	
+							$("#code_verification_input").hide();			
+							showDialog("인증되었습니다.", null);
+							
 							//return;
 						} else if (r.code == "400") {
 							showDialog("인증번호가 일치하지 않습니다. 다시 입력해주세요.");
