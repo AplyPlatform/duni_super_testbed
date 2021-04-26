@@ -463,7 +463,9 @@ function startTimer(duration, display) {
         display.text(minutes + ":" + seconds);
 
         if (--timer < 0) {
-			showDialog("인증번호 입력시간이 만료되었습니다.", "");
+			clearTimeout(timer);
+			showDialog("인증번호 입력시간이 만료되었습니다.", null);
+			location.reload();
         }
     }, 1000);
 }
@@ -489,9 +491,9 @@ function verifyCodeHandler(form_p_id, checkFunc){
 						showDialog("인증되었습니다.", null);	
 						//return;
 					} else if (r.code == "400") {
-						showDialog("인증번호가 일치하지 않습니다. 다시 입력해주세요.");
+						showDialog("인증번호가 일치하지 않습니다. 다시 입력해주세요.", null);
 					} else if (r.code == "408") {
-						showDialog("인증시간이 초과되었습니다. 다시 시도해주세요.");
+						showDialog("인증시간이 초과되었습니다. 다시 시도해주세요.", null);
 					}
 			},
 			error: function (request, status, error) { 
