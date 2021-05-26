@@ -477,7 +477,7 @@ function verifyPhoneHandler(form_p_id, checkFunc) {
 		// check if phone number starts with 01 and is total of 11 digits
 		let phone_number = $(form_id).find('input[name="form_phone"]').val();
 		console.log(phone_number.length != 8);
-		console.log(phone_number.substring(0,2) != "01");
+		console.log(phone_number.substring(0,2));
 		if((phone_number.length != 8) || phone_number.substring(0,2).equals("01")){
 			showDialog("휴대번호를 정확히 입력해 주세요.");
 			return;
