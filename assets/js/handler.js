@@ -487,8 +487,8 @@ function verifyPhoneHandler(form_p_id, checkFunc) {
 				ajaxRequest(jdata, 
 					function (data){
 						let result = data.aligo.result_code;
-						if(data.aligo.code == "200" || 	result == "1"){ //정상응답
-							if (result == "1") {      // 전송성공  
+						if(data.aligo.code === 200 || 	result == "1"){ //정상응답
+							if (result === "1") {      // 전송성공  
 								showDialog("인증번호가 전송되었습니다.", null);
 								// 인증하기 텍스트 -> 재전송
 								$(form_id + "_verify_phone").val("재전송");
@@ -497,9 +497,9 @@ function verifyPhoneHandler(form_p_id, checkFunc) {
 								startTimer(duration, display);
 								$("#code_verification_input").show();
 									//return;
-							} else if (result == "-101") {
+							} else if (result === "-101") {
 								showDialog("잘못된 전화번호입니다. 다시 입력해주세요.");
-							} else if (result == "-410") {
+							} else if (result === "-410") {
 								showDialog("이미 가입된 전화번호입니다. 다른번호를 입력해주세요.");
 							} else {
 								showDialog("죄송합니다, 일시적인 오류가 발생하였습니다. 다시 시도 부탁드립니다.", null);
@@ -527,20 +527,20 @@ function verifyPhoneHandler(form_p_id, checkFunc) {
 				var jdata = {"action" : "member2", "daction" : "check_verifycode", "phone_number" : $(form_id).find('input[name="form_phone"]').val(), "verify_code" : verification_code, "g-token" : token};
 				ajaxRequest(jdata,
 					function(data){
-						if (data.aligo.code == "200") { // 정상응답
+						if (data.aligo.code === 200) { // 정상응답
 							let result = data.aligo.result_code;
-							if(result == "10"){
+							if(result === "10"){
 								$(form_id).find('input[name="verification_code"]').val("");
 								$("#code_verification_input").hide();			
 								showDialog("인증되었습니다.", null);
 								clearInterval(interval_timer);
 								return;
 							}
-							if(result =="-400"){
+							if(result === "-400"){
 								showDialog("인증번호가 일치하지 않습니다. 다시 입력해주세요.", null);
 								return;
 							}
-							if(result == "-408"){
+							if(result === "-408"){
 								showDialog("인증시간이 초과되었습니다. 다시 시도해주세요", null);
 								return;
 							}
