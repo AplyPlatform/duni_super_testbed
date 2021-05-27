@@ -475,11 +475,11 @@ function verifyPhoneHandler(form_p_id, checkFunc) {
 	$(form_id + "_verify_phone").on("click", function(e) {
 		e.preventDefault();
 		// check if phone number starts with 01 and is total of 11 digits
-		if(phone_verified == true){
+		//if(phone_verified == true){
 			// $(form_id).find('input[name="form_phone"]').prop( "disabled", false );
 			// $(form_id + "_verify_phone").val("인증번호 전송");
 			// phone_verified == false;
-		}
+		//}
 		let phone_number = $(form_id).find('input[name="form_phone"]').val();
 		if((phone_number.length != 11) || phone_number.substring(0,2) !== '01'){
 			showDialog("휴대번호를 정확히 입력해 주세요.");
