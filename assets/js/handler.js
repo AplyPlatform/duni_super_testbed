@@ -486,13 +486,14 @@ function verifyPhoneHandler(form_p_id, checkFunc) {
 			return;
 		}
 		grecaptcha.ready(function() {
-			grecaptcha.execute('6LfPn_UUAAAAAN-EHnm2kRY9dUT8aTvIcfrvxGy7', {action: 'homepage'}).then(function(token) {
+			grecaptcha.execute('6LfPn_UUAAAAAN-', {action: 'homepage'}).then(function(token) {
 			   // send phone verification
-				var jdata = {"action": "member2", "daction" : "validate_phonenumber", "phone_number" : phone_number, "g_token": ""};
+				var jdata = {"action": "member2", "daction" : "validate_phonenumber", "phone_number" : phone_number, "g_token": token};
 				ajaxRequest(jdata, 
 					function (data){
-						let result = data.aligo.result_code;
-						if(data.aligo.code === 200 || 	result == "1"){ //정상응답
+						
+						if(data.aligo.code === 200 || 	data.aligo.result_code == "1"){ //정상응답
+							let result = data.aligo.result_code;
 							if (result === "1") {      // 전송성공  
 								showDialog("인증번호가 전송되었습니다.", null);
 								// 인증하기 텍스트 -> 재전송
