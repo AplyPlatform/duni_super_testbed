@@ -475,18 +475,18 @@ function verifyPhoneHandler(form_p_id, checkFunc) {
 	$(form_id + "_verify_phone").on("click", function(e) {
 		e.preventDefault();
 		// check if phone number starts with 01 and is total of 11 digits
-		//if(phone_verified == true){
-			// $(form_id).find('input[name="form_phone"]').prop( "disabled", false );
-			// $(form_id + "_verify_phone").val("인증번호 전송");
-			// phone_verified == false;
-		//}
+		if(phone_verified == true){
+			$(form_id).find('input[name="form_phone"]').prop( "disabled", false );
+			$(form_id + "_verify_phone").val("인증번호 전송");
+			phone_verified == false;
+		}
 		let phone_number = $(form_id).find('input[name="form_phone"]').val();
 		if((phone_number.length != 11) || phone_number.substring(0,2) !== '01'){
 			showDialog("휴대번호를 정확히 입력해 주세요.");
 			return;
 		}
 		grecaptcha.ready(function() {
-			grecaptcha.execute('6LfPn_UUAAAAAN-', {action: 'homepage'}).then(function(token) {
+			grecaptcha.execute('6LfPn_UUAAAAAN-EHnm2kRY9dUT8aTvIcfrvxGy7', {action: 'homepage'}).then(function(token) {
 			   // send phone verification
 				var jdata = {"action": "member2", "daction" : "validate_phonenumber", "phone_number" : phone_number, "g_token": token};
 				ajaxRequest(jdata, 
@@ -544,9 +544,9 @@ function verifyPhoneHandler(form_p_id, checkFunc) {
 								showDialog("인증되었습니다.", null);
 								clearInterval(interval_timer);
 								// disable phone number input
-								// phone_verified = true;
-								// $(form_id).find('input[name="form_phone"]').prop( "disabled", true );
-								// $(form_id + "_verify_phone").val("재인증");
+								phone_verified = true;
+								$(form_id).find('input[name="form_phone"]').prop( "disabled", true );
+								$(form_id + "_verify_phone").val("재인증");
 								return;
 							}
 							if(result === "-400"){
