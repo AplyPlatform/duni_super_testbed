@@ -471,7 +471,7 @@ function startTimer(duration, display) {
 // 전화번호 코드 전송 혜지프로
 function verifyPhoneHandler(form_p_id, checkFunc) {
 	var form_id = "#" + form_p_id;
-	// var phone_verified = false;
+	var phone_verified = false;
 	$(form_id + "_verify_phone").on("click", function(e) {
 		e.preventDefault();
 		// check if phone number starts with 01 and is total of 11 digits
