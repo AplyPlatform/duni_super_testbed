@@ -471,7 +471,7 @@ function startTimer(duration, display) {
 // 전화번호 코드 전송 혜지프로
 function verifyPhoneHandler(form_p_id, checkFunc) {
 	var form_id = "#" + form_p_id;
-
+	var phone_verified = false;
 	$(form_id + "_verify_phone").on("click", function(e) {
 		e.preventDefault();
 		// check if phone number starts with 01 and is total of 11 digits
@@ -483,7 +483,7 @@ function verifyPhoneHandler(form_p_id, checkFunc) {
 		grecaptcha.ready(function() {
 			grecaptcha.execute('6LfPn_UUAAAAAN-EHnm2kRY9dUT8aTvIcfrvxGy7', {action: 'homepage'}).then(function(token) {
 			   // send phone verification
-				var jdata = {"action": "member2", "daction" : "validate_phonenumber", "phone_number" : phone_number, "g-token": token};
+				var jdata = {"action": "member2", "daction" : "validate_phonenumber", "phone_number" : phone_number, "g_token": token};
 				ajaxRequest(jdata, 
 					function (data){
 						let result = data.aligo.result_code;
@@ -524,7 +524,7 @@ function verifyPhoneHandler(form_p_id, checkFunc) {
 		} 
 		grecaptcha.ready(function() {
 			grecaptcha.execute('6LfPn_UUAAAAAN-EHnm2kRY9dUT8aTvIcfrvxGy7', {action: 'homepage'}).then(function(token) {
-				var jdata = {"action" : "member2", "daction" : "check_verifycode", "phone_number" : $(form_id).find('input[name="form_phone"]').val(), "verify_code" : verification_code, "g-token" : token};
+				var jdata = {"action" : "member2", "daction" : "check_verifycode", "phone_number" : $(form_id).find('input[name="form_phone"]').val(), "verify_code" : verification_code, "g_token" : token};
 				ajaxRequest(jdata,
 					function(data){
 						if (data.aligo.code === 200) { // 정상응답
@@ -534,6 +534,7 @@ function verifyPhoneHandler(form_p_id, checkFunc) {
 								$("#code_verification_input").hide();			
 								showDialog("인증되었습니다.", null);
 								clearInterval(interval_timer);
+								phone_verified = true;
 								return;
 							}
 							if(result === "-400"){
@@ -556,38 +557,6 @@ function verifyPhoneHandler(form_p_id, checkFunc) {
 				);
 			});
 		});
-			
-			
-			// $.ajax({
-			// 	url: "https://api.duni.io/v1",
-			// 	dataType: "json",
-			// 	crossDomain: true,
-			// 	cache: false,
-			// 	data: JSON.stringify(jdata),
-			// 	type: "POST",
-			// 	contentType: "application/json; charset=utf-8",
-			// 	success: function (r) {
-			// 			// 200안으로 코드정리
-			// 			if (r.code == "200") {      // 인증성공 
-			// 				$(form_id).find('input[name="verification_code"]').val("");
-			// 				$("#code_verification_input").hide();			
-			// 				showDialog("인증되었습니다.", null);
-			// 				clearInterval(interval_timer);
-			// 				//return;
-			// 			} else if (r.code == "400") {
-			// 				showDialog("인증번호가 일치하지 않습니다. 다시 입력해주세요.");
-			// 			} else if (r.code == "408") {
-			// 				showDialog("인증시간이 초과되었습니다. 다시 시도해주세요.");
-			// 			}
-			// 	},
-			// 	error: function (request, status, error) { 
-			// 		showDialog("죄송합니다, 일시적인 오류가 발생하였습니다. 다시 시도 부탁드립니다.", null);           
-			// 		//errorcallback(request, status, error);
-			// 	}
-			// });	
-		
-		
-
 	});
 
 	$('[name^=form_phone]').keypress(validateNumber);
