@@ -493,7 +493,7 @@ function verifyPhoneHandler(form_p_id, checkFunc) {
 				ajaxRequest(jdata, 
 					function (data){
 						let result = data.result_code;
-						if(result === "0"){ //정상응답
+						if(result === 0){ //정상응답
 							showDialog("인증번호가 전송되었습니다.", null);
 							// 인증하기 텍스트 -> 재전송
 							$(form_id + "_verify_phone").val("재전송");
@@ -503,11 +503,11 @@ function verifyPhoneHandler(form_p_id, checkFunc) {
 							$("#code_verification_input").show();
 							return;
 						}
-						else if (result === "2") {
+						else if (result === 2) {
 							showDialog("잘못된 전화번호이거나 전화번호 형식이 올바르지 않습니다. 다시 입력해주세요.");
 							return;
 						}
-						else if (result === "3") {
+						else if (result === 3) {
 							showDialog("이미 가입된 전화번호입니다. 다른번호를 입력해주세요.");
 							return;
 						}
@@ -536,7 +536,7 @@ function verifyPhoneHandler(form_p_id, checkFunc) {
 				ajaxRequest(jdata,
 					function(data){
 						let result = data.result_code;
-						if(result === "0"){
+						if(result === 0){
 							$(form_id).find('input[name="verification_code"]').val("");
 							$("#code_verification_input").hide();			
 							showDialog("인증되었습니다.", null);
@@ -547,11 +547,11 @@ function verifyPhoneHandler(form_p_id, checkFunc) {
 							$(form_id + "_verify_phone").val("재인증");
 							return;
 						}
-						else if(result === "2"){
+						else if(result === 2){
 							showDialog("인증번호가 일치하지 않습니다. 다시 입력해주세요.", null);
 							return;
 						}
-						else if(result === "4"){
+						else if(result === 4){
 							showDialog("인증시간이 초과되었습니다. 다시 시도해주세요", null);
 							return;
 						}
