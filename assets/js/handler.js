@@ -472,6 +472,7 @@ function startTimer(duration, display) {
 function verifyPhoneHandler(form_p_id, checkFunc) {
 	var form_id = "#" + form_p_id;
 	var phone_verified = false;
+	$('[name^=form_phone]').keypress(validateNumber);
 	$(form_id + "_verify_phone").on("click", function(e) {
 		e.preventDefault();
 		// check if phone number starts with 01 and is total of 11 digits
@@ -500,6 +501,7 @@ function verifyPhoneHandler(form_p_id, checkFunc) {
 							var duration = 60 * 3;
 							var display = $('#remaining_time');
 							startTimer(duration, display);
+							$(form_id).find('input[name="form_phone"]').prop( "disabled", true );
 							$("#code_verification_input").show();
 							return;
 						}
@@ -568,7 +570,7 @@ function verifyPhoneHandler(form_p_id, checkFunc) {
 		});
 	});
 
-	$('[name^=form_phone]').keypress(validateNumber);
+	
 }
 
 function setSubmitHandler(form_p_id, checkFunc) {
