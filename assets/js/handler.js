@@ -5,6 +5,7 @@ var referrer_site = "direct";
 
 // 인증 타이머 글로벌 함수 혜지프로
 var interval_timer;
+var phone_verified = false;
 	
 function showLoader() {
 	$("#loaderbox").show();
@@ -109,6 +110,11 @@ function checkUserApplicationData(form_id) {
 
 	if ($(form_id).find('input[name="form_phone"]').val() == "") {
 		showDialog("전화번호를 입력하세요.", null);
+		return false;
+	}
+
+	if(phone_verified == false){
+		showDialog("전화번호 인증은 필수입니다.", null);
 		return false;
 	}
 	
@@ -471,17 +477,10 @@ function startTimer(duration, display) {
 // 전화번호 코드 전송 혜지프로
 function verifyPhoneHandler(form_p_id, checkFunc) {
 	var form_id = "#" + form_p_id;
-	var phone_verified = false;
 	$('[name^=form_phone]').keypress(validateNumber);
 	$(form_id + "_verify_phone").on("click", function(e) {
 		e.preventDefault();
 		// check if phone number starts with 01 and is total of 11 digits
-		if(phone_verified == true){
-			$(form_id).find('input[name="form_phone"]').prop( "disabled", false );
-			$(form_id + "_verify_phone").val("인증번호 전송");
-			phone_verified == false;
-			return;
-		}
 		let phone_number = $(form_id).find('input[name="form_phone"]').val();
 		if((phone_number.length != 11) || phone_number.substring(0,2) !== '01'){
 			showDialog("잘못된 전화번호이거나 전화번호 형식이 올바르지 않습니다. 다시 입력해주세요.");
@@ -496,6 +495,7 @@ function verifyPhoneHandler(form_p_id, checkFunc) {
 						let result = data.result_code;
 						if(result === 0){ //정상응답
 							showDialog("인증번호가 전송되었습니다.", null);
+							phone_verified = false;
 							// 인증하기 텍스트 -> 재전송
 							$(form_id + "_verify_phone").val("재전송");
 							var duration = 60 * 3;
@@ -545,8 +545,8 @@ function verifyPhoneHandler(form_p_id, checkFunc) {
 							clearInterval(interval_timer);
 							// disable phone number input
 							phone_verified = true;
-							$(form_id).find('input[name="form_phone"]').prop( "disabled", true );
-							$(form_id + "_verify_phone").val("재인증");
+							// $(form_id).find('input[name="form_phone"]').prop( "disabled", true );
+							// $(form_id + "_verify_phone").val("재인증");
 							return;
 						}
 						else if(result === 2){
