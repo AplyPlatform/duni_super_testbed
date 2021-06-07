@@ -478,6 +478,7 @@ function startTimer(duration, display) {
 function verifyPhoneHandler(form_p_id, checkFunc) {
 	var form_id = "#" + form_p_id;
 	$('[name^=form_phone]').keypress(validateNumber);
+	$('[name^=verification_code]').keypress(validateNumber);
 	$(form_id + "_verify_phone").on("click", function(e) {
 		e.preventDefault();
 		// check if phone number starts with 01 and is total of 11 digits
@@ -527,7 +528,6 @@ function verifyPhoneHandler(form_p_id, checkFunc) {
 	});	
 	$(form_id + "_verify_code").click(function(e) {
 		e.preventDefault();
-		$('[name^=verification_code]').keypress(validateNumber);
 		let verification_code = $(form_id).find('input[name="verification_code"]').val();
 		if(verification_code == ""){
 			showDialog("인증번호를 입력해주세요.");
