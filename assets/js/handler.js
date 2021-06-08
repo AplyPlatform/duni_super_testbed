@@ -506,18 +506,16 @@ function verifyPhoneHandler(form_p_id, checkFunc) {
 							$("#code_verification_input").show();
 							return;
 						}
-						else if (result === 2) {
+						if (result === 2) {
 							showDialog("잘못된 전화번호이거나 전화번호 형식이 올바르지 않습니다. 다시 입력해주세요.");
 							return;
 						}
-						else if (result === 3) {
+						if (result === 3) {
 							showDialog("이미 가입된 전화번호입니다. 다른번호를 입력해주세요.");
 							return;
 						}
-						else {
-							showDialog("죄송합니다, 일시적인 오류가 발생하였습니다. 다시 시도 부탁드립니다.", null);
-							return;
-						}
+						showDialog("죄송합니다, 일시적인 오류가 발생하였습니다. 다시 시도 부탁드립니다.", null);
+						return;
 					},
 					function (err, stat, error) {
 						showDialog("죄송합니다, 일시적인 오류가 발생하였습니다. 다시 시도 부탁드립니다.", null);
@@ -550,18 +548,16 @@ function verifyPhoneHandler(form_p_id, checkFunc) {
 							// $(form_id + "_verify_phone").val("재인증");
 							return;
 						}
-						else if(result === 2){
+						if(result === 2){
 							showDialog("인증번호가 일치하지 않습니다. 다시 입력해주세요.", null);
 							return;
 						}
-						else if(result === 4){
+						if(result === 4){
 							showDialog("인증시간이 초과되었습니다. 다시 시도해주세요", null);
 							return;
 						}
-						else {
 						showDialog("죄송합니다, 일시적인 오류가 발생하였습니다. 다시 시도 부탁드립니다.", null);
 						return;
-						}
 					},
 					function (err, stat, error) {
 						showDialog("죄송합니다, 일시적인 오류가 발생하였습니다. 다시 시도 부탁드립니다.", null);
