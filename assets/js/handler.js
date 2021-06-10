@@ -490,7 +490,11 @@ function verifyPhoneHandler(checkFunc) {
 		grecaptcha.ready(function() {
 			grecaptcha.execute('6LfPn_UUAAAAAN-EHnm2kRY9dUT8aTvIcfrvxGy7', {action: 'homepage'}).then(function(token) {
 			   // send phone verification
-				var jdata = {"action": "member2", "daction" : "validate_phonenumber", "phone_number" : phone_number, "g_token": token};
+				var jdata = {
+					"action": "member", 
+					"daction" : "validate_phonenumber", 
+					"phone_number" : phone_number, 
+					"g_token": token};
 				ajaxRequest(jdata, 
 					function (data){
 						let result = data.result_code;
@@ -533,7 +537,12 @@ function verifyPhoneHandler(checkFunc) {
 		} 
 		grecaptcha.ready(function() {
 			grecaptcha.execute('6LfPn_UUAAAAAN-EHnm2kRY9dUT8aTvIcfrvxGy7', {action: 'homepage'}).then(function(token) {
-				var jdata = {"action" : "member2", "daction" : "check_verifycode", "phone_number" : $(form_id).find('input[name="form_phone"]').val(), "verify_code" : verification_code, "g_token" : token};
+				var jdata = {
+					"action" : "member", 
+					"daction" : "check_verifycode", 
+					"phone_number" : $(form_id).find('input[name="form_phone"]').val(), 
+					"verify_code" : verification_code, 
+					"g_token" : token};
 				ajaxRequest(jdata,
 					function(data){
 						let result = data.result_code;
