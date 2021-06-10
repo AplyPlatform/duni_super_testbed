@@ -475,14 +475,14 @@ function startTimer(duration, display) {
 }
 
 // 전화번호 코드 전송 혜지프로
-function verifyPhoneHandler(form_p_id, checkFunc) {
-	var form_id = "#" + form_p_id;
+function verifyPhoneHandler(checkFunc) {
+	// 인증 임의 번호 -> 인증완료 시 받고, 회원가입시 전화번호 대신에 보냄
 	$('[name^=form_phone]').keypress(validateNumber);
 	$('[name^=verification_code]').keypress(validateNumber);
-	$(form_id + "_verify_phone").on("click", function(e) {
+	$("#user_verify_phone").on("click", function(e) {
 		e.preventDefault();
 		// check if phone number starts with 01 and is total of 11 digits
-		let phone_number = $(form_id).find('input[name="form_phone"]').val();
+		let phone_number = $('#user').find('input[name="form_phone"]').val();
 		if((phone_number.length != 11) || phone_number.substring(0,2) !== '01'){
 			showDialog("잘못된 전화번호이거나 전화번호 형식이 올바르지 않습니다. 다시 입력해주세요.");
 			return;
@@ -498,11 +498,11 @@ function verifyPhoneHandler(form_p_id, checkFunc) {
 							showDialog("인증번호가 전송되었습니다.", null);
 							phone_verified = false;
 							// 인증하기 텍스트 -> 재전송
-							$(form_id + "_verify_phone").val("재전송");
+							$("#user_verify_phone").val("재전송");
 							var duration = 60 * 3;
 							var display = $('#remaining_time');
 							startTimer(duration, display);
-							$(form_id).find('input[name="form_phone"]').prop( "disabled", true );
+							$("#user").find('input[name="form_phone"]').prop( "disabled", true );
 							$("#code_verification_input").show();
 							return;
 						}
@@ -524,9 +524,9 @@ function verifyPhoneHandler(form_p_id, checkFunc) {
 			});
 		});
 	});	
-	$(form_id + "_verify_code").click(function(e) {
+	$("#user_verify_code").click(function(e) {
 		e.preventDefault();
-		let verification_code = $(form_id).find('input[name="verification_code"]').val();
+		let verification_code = $("#user").find('input[name="verification_code"]').val();
 		if(verification_code == ""){
 			showDialog("인증번호를 입력해주세요.");
 			return;
@@ -538,12 +538,13 @@ function verifyPhoneHandler(form_p_id, checkFunc) {
 					function(data){
 						let result = data.result_code;
 						if(result === 0){
-							$(form_id).find('input[name="verification_code"]').val("");
+							$("#user").find('input[name="verification_code"]').val("");
 							$("#code_verification_input").hide();			
 							showDialog("인증되었습니다.", null);
 							clearInterval(interval_timer);
 							// disable phone number input
 							phone_verified = true;
+							$("#user").find("#auth_code").val(data.auth_code);
 							// $(form_id).find('input[name="form_phone"]').prop( "disabled", true );
 							// $(form_id + "_verify_phone").val("재인증");
 							return;
@@ -587,7 +588,8 @@ function setSubmitHandler(form_p_id, checkFunc) {
 				
 		grecaptcha.ready(function() {
 	      grecaptcha.execute('6LfPn_UUAAAAAN-EHnm2kRY9dUT8aTvIcfrvxGy7', {action: 'homepage'}).then(function(token) {
-	         sendApplicationData(form_id, token);
+			// user일때  
+			sendApplicationData(form_id, token);
 	      });
 	  });
 	});
@@ -624,7 +626,7 @@ function setPage(form_id, checkFunc) {
 		}		
 	}
 	if(form_id == "user"){
-		verifyPhoneHandler(form_id, checkFunc);
+		verifyPhoneHandler(checkFunc);
 	}		
 	setSubmitHandler(form_id, checkFunc);
 	checkLoginStatus();
