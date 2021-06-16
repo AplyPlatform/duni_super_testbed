@@ -112,7 +112,6 @@ function checkUserApplicationData(form_id) {
 		showDialog("전화번호를 입력하세요.", null);
 		return false;
 	}
-
 	if(phone_verified == false){
 		showDialog("전화번호 인증은 필수입니다.", null);
 		return false;
@@ -540,7 +539,7 @@ function verifyPhoneHandler(checkFunc) {
 				var jdata = {
 					"action" : "member", 
 					"daction" : "check_verifycode", 
-					"phone_number" : $(form_id).find('input[name="form_phone"]').val(), 
+					"phone_number" : $('#user').find('input[name="form_phone"]').val(), 
 					"verify_code" : verification_code, 
 					"g_token" : token};
 				ajaxRequest(jdata,
